@@ -3,7 +3,6 @@
 #include "Exceptions.hpp"
 #include "MagicNumbers.hpp"
 #include <memory>
-#include <sstream>
 
 using namespace std;
 
@@ -18,12 +17,12 @@ bool Player::has_certain_name(string name){
     return false;
 }
 void Player::injured(){
-    injury = INJURY_PERIOD;
+    injury = 3;
 }
 
 void Player::add_yellow_card(){
     yellow_card ++;
-    if(yellow_card >= YELLOW_CARD_TRESHOLD){
+    if(yellow_card >= 3){
         missed_next_match = true;
         yellow_card = 0;
     }
@@ -78,26 +77,9 @@ double Player::average_points(){
         }
     }
     if(active_days!=0){
-        return standardize_digits(total_rating/active_days, MAX_PERCISION_IN_DOUBLES);
+        return total_rating/active_days;
     }
     return 0;
-}
-
-double Player::standardize_digits(double number, int digits){
-    double result;
-    double divider = MAX_PERCISION_IN_DOUBLES;
-    for(int i=0; i<digits+1; i++){
-        divider *=10;
-    }
-    int raw_number = (int)(number * divider);
-    int remainder = (raw_number % 10);
-    if(remainder >=5){
-        result = (raw_number-remainder+10) / divider;
-    }
-    if(remainder <5){
-        result = (raw_number-remainder) / divider;
-    }
-    return result;
 }
 
 bool Player::can_play_next_week(){
@@ -142,21 +124,11 @@ bool Player::is_better_alphabetically(std::shared_ptr<Player> compared_to){
 }
 
 string Player::team_of_the_week_output(int week){
-    stringstream stream;  
-    stream.precision(MAX_PERCISION_IN_DOUBLES);
-    stream << fixed;
-    stream << this->get_score_at_week(week);  
-
-    return this->full_name + " | score: " + stream.str();
+    return this->full_name + " | score: " + to_string(this->get_score_at_week(week));
 }
 
 string Player::players_of_the_team_output(){
-    stringstream stream;  
-    stream.precision(MAX_PERCISION_IN_DOUBLES);
-    stream << fixed;
-    stream << this->average_points();  
-    
-    return "name: " + full_name + " | role: " + this->get_position() + " | score: " + stream.str();
+    return "name: " + full_name + " | role: " + this->get_position() + " | score: " + to_string(this->average_points());
 }
 
 std::string Player::fantasy_squad_output(){
