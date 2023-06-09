@@ -43,6 +43,15 @@ class MatchResult{
         void update_players_score(std::vector<std::shared_ptr<Player> >& players_list);
 
         void fill_raw_scores_list(std::vector<double>& first_team_scores, std::vector<double>& second_team_scores);
+        void first_rule(std::vector<double>& first_team_scores, std::vector<double>& second_team_scores);
+        void add_clean_sheet_scores(std::vector<double>& first_team_scores, std::vector<double>& second_team_scores);
+        void give_points_on_goal_scores(std::vector<std::string> attacking_team_lineup, std::vector<double>& attaking_taem_scores,
+                                             std::vector<double>& defending_taem_scores);
+        void give_points_on_goal_assist(std::vector<std::string> attacking_team_lineup, std::vector<double>& attaking_taem_scores);
+        void reduce_points_on_own_goal(std::vector<std::string> attacking_team_lineup, std::vector<double>& attaking_taem_scores);
+        void reduce_points_forward_not_scoring(std::vector<std::string> attacking_team_lineup, std::vector<double>& attaking_team_scores);
+        void reduce_points_on_recieving_goal(std::vector<std::string> attacking_team_lineup, std::vector<double>& defending_team_scores);
+
         bool is_inside(std::string name, std::vector<std::string> list);
         void add_points_to_all_team_players(std::vector<double>& team_list, double points);
         double to_standardized_score(double raw_score);

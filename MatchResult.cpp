@@ -121,6 +121,7 @@ void MatchResult::update_players_stat(vector<shared_ptr<Player> >& players_list)
     update_red_cards(players_list);
     update_yellow_cards(players_list);
     update_players_score(players_list);
+    //add clean sheets and goals and ...
 }
 
 
@@ -164,9 +165,7 @@ void MatchResult::add_points_to_all_team_players(std::vector<double>& team_list,
     }
 }
 
-
-void MatchResult::fill_raw_scores_list(vector<double>& first_team_scores, vector<double>& second_team_scores){
-    //first rule
+void MatchResult::first_rule(vector<double>& first_team_scores, vector<double>& second_team_scores){
     if(first_team_goals > second_team_goals){
         add_points_to_all_team_players(first_team_scores, 5);
         add_points_to_all_team_players(second_team_scores, -1);
@@ -179,8 +178,9 @@ void MatchResult::fill_raw_scores_list(vector<double>& first_team_scores, vector
         add_points_to_all_team_players(first_team_scores, 1);
         add_points_to_all_team_players(second_team_scores, 1);
     }
-    
-    //cleanshit
+}
+
+void MatchResult::add_clean_sheet_scores(vector<double>& first_team_scores, vector<double>& second_team_scores){
     if(second_team_goals == 0){
         first_team_scores[GK] +=5;
         for(int i = LB; i < LM; i++){
@@ -199,133 +199,94 @@ void MatchResult::fill_raw_scores_list(vector<double>& first_team_scores, vector
             second_team_scores[i] +=1;
         }
     }
-
-    //each goal scored
-    for(int i=0 ; i<first_team_lineup.size(); i++){
-        if(is_inside(first_team_lineup[i], scorers)){
-            second_team_scores[GK] --;
+}
+void MatchResult::give_points_on_goal_scores(vector<string> attacking_team_lineup, vector<double>& attaking_team_scores,
+                                             vector<double>& defending_team_scores){
+    for(int i=0 ; i<attacking_team_lineup.size(); i++){
+        if(is_inside(attacking_team_lineup[i], scorers)){
+            defending_team_scores[GK] --;
             if(i >= LB && i <= RB){
-                first_team_scores[i] +=4;
+                attaking_team_scores[i] +=4;
             }
             if(i >= LM && i <= RM){
-                first_team_scores[i] +=3;
+                attaking_team_scores[i] +=3;
             }
-            if(i >= LW && i <= ST){
-                first_team_scores[i] +=3;
+            if(i >= LW && i <= RW){
+                attaking_team_scores[i] +=3;
             }
         }
-    }
-    for(int i=0 ; i<second_team_linup.size(); i++){
-        if(is_inside(second_team_linup[i], scorers)){
-            first_team_scores[GK] --;
+    }                                            
+}
+
+void MatchResult::give_points_on_goal_assist(vector<string> attacking_team_lineup, vector<double>& attaking_team_scores){
+    for(int i=0 ; i<attacking_team_lineup.size(); i++){
+        if(is_inside(attacking_team_lineup[i], assists)){
             if(i >= LB && i <= RB){
-                second_team_scores[i] +=4;
+                attaking_team_scores[i] +=3;
             }
             if(i >= LM && i <= RM){
-                second_team_scores[i] +=3;
+                attaking_team_scores[i] +=2;
             }
-            if(i >= LW && i <= ST){
-                second_team_scores[i] +=3;
+            if(i >= LW && i <= RW){
+                attaking_team_scores[i] +=1;
             }
         }
-    }
+    }                                            
+}
 
-    //each assist done
-    for(int i=0 ; i<first_team_lineup.size(); i++){
-        if(is_inside(first_team_lineup[i], assists)){
-            if(i >= LB && i <= RB){
-                first_team_scores[i] +=3;
-            }
-            if(i >= LM && i <= RM){
-                first_team_scores[i] +=2;
-            }
-            if(i >= LW && i <= ST){
-                first_team_scores[i] +=1;
-            }
+void MatchResult::reduce_points_on_own_goal(vector<string> attacking_team_lineup, vector<double>& attaking_team_scores){
+    for(int i=0 ; i<attacking_team_lineup.size(); i++){
+        if(is_inside(attacking_team_lineup[i], own_goals)){
+            attaking_team_scores[i] --;
         }
     }
-    for(int i=0 ; i<second_team_linup.size(); i++){
-        if(is_inside(second_team_linup[i], assists)){
-            if(i >= LB && i <= RB){
-                second_team_scores[i] +=3;
-            }
-            if(i >= LM && i <= RM){
-                second_team_scores[i] +=2;
-            }
-            if(i >= LW && i <= ST){
-                second_team_scores[i] +=1;
-            }
-        }
-    }
+}
 
-    //each own goal
-    for(int i=0 ; i<first_team_lineup.size(); i++){
-        if(is_inside(first_team_lineup[i], own_goals)){
-            first_team_scores[i] --;
-        }
-    }
-    for(int i=0 ; i<second_team_linup.size(); i++){
-        if(is_inside(second_team_linup[i], own_goals)){
-            second_team_scores[i] --;
-        }
-    }
-
-    //forward not scoring a goal
-    for(int i=0 ; i<first_team_lineup.size(); i++){
-        if(!is_inside(first_team_lineup[i], scorers)){
-            if(i >= LW && i <= ST){
-                first_team_scores[i] --;
+void MatchResult::reduce_points_forward_not_scoring(vector<string> attacking_team_lineup, vector<double>& attaking_team_scores){
+    for(int i=0 ; i<attacking_team_lineup.size(); i++){
+        if(!is_inside(attacking_team_lineup[i], scorers)){
+            if(i >= LW && i <= RW){
+                attaking_team_scores[i] --;
             }
         }
     }
-    for(int i=0 ; i<second_team_linup.size(); i++){
-        if(!is_inside(second_team_linup[i], scorers)){
-            if(i >= LW && i <= ST){
-                second_team_scores[i] --;
-            }
-        }
-    }
+}
 
-    //reducing score for goals against
-    for(int i=0 ; i<first_team_lineup.size(); i++){
-        if(is_inside(first_team_lineup[i], scorers)){
+void MatchResult::reduce_points_on_recieving_goal(vector<string> attacking_team_lineup, vector<double>& defending_team_scores){
+    for(int i=0 ; i<attacking_team_lineup.size(); i++){
+        if(is_inside(attacking_team_lineup[i], scorers)){
             if(i == RW || i == RB){
-                second_team_scores[LB] --;
+                defending_team_scores[LB] --;
             }
             if(i == LW || i == LB){
-                second_team_scores[RB] --;
+                defending_team_scores[RB] --;
             }
             if(i == ST || i == RCB || i == LCB){
-                second_team_scores[LCB] --;
-                second_team_scores[RCB] --;
+                defending_team_scores[LCB] --;
+                defending_team_scores[RCB] --;
             }
             if(i >= LM && i <= RM){
-                second_team_scores[LM] --;
-                second_team_scores[CM] --;
-                second_team_scores[RM] --;
+                defending_team_scores[LM] --;
+                defending_team_scores[CM] --;
+                defending_team_scores[RM] --;
             }
         }
     }
-    for(int i=0 ; i<second_team_linup.size(); i++){
-        if(is_inside(second_team_linup[i], scorers)){
-            if(i == RW || i == RB){
-                first_team_scores[LB] --;
-            }
-            if(i == LW || i == LB){
-                first_team_scores[RB] --;
-            }
-            if(i == ST || i == RCB || i == LCB){
-                first_team_scores[LCB] --;
-                first_team_scores[RCB] --;
-            }
-            if(i >= LM && i <= RM){
-                first_team_scores[LM] --;
-                first_team_scores[CM] --;
-                first_team_scores[RM] --;
-            }
-        }
-    }
+}
 
+void MatchResult::fill_raw_scores_list(vector<double>& first_team_scores, vector<double>& second_team_scores){
+    first_rule(first_team_scores, second_team_scores);
+    add_clean_sheet_scores(first_team_scores, second_team_scores);
+    give_points_on_goal_scores(first_team_lineup, first_team_scores, second_team_scores);
+    give_points_on_goal_scores(second_team_linup, second_team_scores, first_team_scores);
+    give_points_on_goal_assist(first_team_lineup, first_team_scores);
+    give_points_on_goal_assist(second_team_linup, second_team_scores);
+    reduce_points_on_own_goal(first_team_lineup, first_team_scores);
+    reduce_points_on_own_goal(second_team_linup, second_team_scores);
+    reduce_points_forward_not_scoring(first_team_lineup, first_team_scores);
+    reduce_points_forward_not_scoring(second_team_linup, second_team_scores);
+    reduce_points_on_recieving_goal(first_team_lineup, second_team_scores);
+    reduce_points_on_recieving_goal(second_team_linup, first_team_scores);
 }
 
 bool MatchResult::is_inside(std::string name, std::vector<std::string> list){
