@@ -98,4 +98,19 @@ const int YELLOW_CARD_TRESHOLD = 3;
 //admin info
 const std::string DEFAULT_ADMIN_USER = "admin";
 const std::string DEFAULT_ADMIN_PASS = "123456"; 
+
+//posts
+enum{
+    GK,
+    LB,
+    LCB,
+    RCB,
+    RB,
+    LM,
+    CM,
+    RM,
+    LW,
+    ST,
+    RW
+};
 #endif

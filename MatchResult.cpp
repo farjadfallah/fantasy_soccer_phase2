@@ -142,8 +142,20 @@ void MatchResult::update_players_score(vector<shared_ptr<Player> >& players_list
 }
 
 double MatchResult::to_standardized_score(double raw_score){
-    double reuslt =  10 * (1 / (1 + pow(EulersNumber,((-1)*raw_score)/6))); 
-    return reuslt;
+    double divider = 1;
+    double result =0;
+    for(int i=0; i<MAX_PERCISION_IN_DOUBLES+1; i++){
+        divider *=10;
+    }
+    int raw_number =  (int)(10 * (1 / (1 + pow(EulersNumber,((-1)*raw_score)/6))) * divider); 
+    int remainder = (raw_number % 10);
+    if(remainder >=5){
+        result = (raw_number-remainder+10) / divider;
+    }
+    if(remainder <5){
+        result = (raw_number-remainder) / divider;
+    }
+    return result;
 }
 
 void MatchResult::add_points_to_all_team_players(std::vector<double>& team_list, double points){

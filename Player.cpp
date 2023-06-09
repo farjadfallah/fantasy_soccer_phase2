@@ -85,7 +85,7 @@ double Player::average_points(){
 
 double Player::standardize_digits(double number, int digits){
     double result;
-    double divider = MAX_PERCISION_IN_DOUBLES;
+    double divider = 1;
     for(int i=0; i<digits+1; i++){
         divider *=10;
     }
