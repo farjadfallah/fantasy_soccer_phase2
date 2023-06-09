@@ -3,6 +3,9 @@
 #include <map>
 #include <string>
 #include <vector>
+
+const double EulersNumber = 2.7182818284590452;
+
 const std::string GOALKEEPER = "gk";
 const std::string DEFENDER = "df";
 const std::string MIDFIELDER = "md";

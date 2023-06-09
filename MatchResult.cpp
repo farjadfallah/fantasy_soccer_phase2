@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 #include "Exceptions.hpp"
-
+#include <cmath>
 using namespace std;
 
 
@@ -129,16 +129,21 @@ void MatchResult::update_players_score(vector<shared_ptr<Player> >& players_list
     fill_raw_scores_list(first_team_scores, second_team_scores);
     for(int i=0; i<first_team_lineup.size(); i++){
         shared_ptr<Player> selected_player = find_player_by_name(first_team_lineup[i], players_list);
-        // double selected_score = to_standardized_score(first_team_scores[i]);
-        // selected_player->edit_new_score(selected_score);
-        cout << "name: |" << first_team_lineup[i] << "| score: " << first_team_scores[i] << endl;
+        double selected_score = to_standardized_score(first_team_scores[i]);
+        selected_player->edit_new_score(selected_score);
+        cout << "name: |" << first_team_lineup[i] << "| raw score: " << first_team_scores[i] << " score: " << selected_score << endl;
     }
     for(int i=0; i<second_team_linup.size(); i++){
         shared_ptr<Player> selected_player = find_player_by_name(second_team_linup[i], players_list);
-        // double selected_score = to_standardized_score(second_team_scores[i]);
-        // selected_player->edit_new_score(selected_score);
-        cout << "name: |" << second_team_linup[i] << "| score: " << second_team_scores[i] << endl;
+        double selected_score = to_standardized_score(second_team_scores[i]);
+        selected_player->edit_new_score(selected_score);
+        cout << "name: |" << second_team_linup[i] << "| raw score: " << second_team_scores[i] << " score: " << selected_score << endl;
     }
+}
+
+double MatchResult::to_standardized_score(double raw_score){
+    double reuslt =  10 * (1 / (1 + pow(EulersNumber,((-1)*raw_score)/6))); 
+    return reuslt;
 }
 
 void MatchResult::add_points_to_all_team_players(std::vector<double>& team_list, double points){

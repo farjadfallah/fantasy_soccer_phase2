@@ -45,6 +45,7 @@ class MatchResult{
         void fill_raw_scores_list(std::vector<double>& first_team_scores, std::vector<double>& second_team_scores);
         bool is_inside(std::string name, std::vector<std::string> list);
         void add_points_to_all_team_players(std::vector<double>& team_list, double points);
+        double to_standardized_score(double raw_score);
 };  
 
 #endif
