@@ -25,14 +25,6 @@ class FileReader{
         void find_midfielders_from_initial_file(std::shared_ptr<SoccerClub> new_team, ReadFileUtil& read_file_util, std::vector<std::shared_ptr<Player> >& players_list);
         void find_Forwards_from_initial_file(std::shared_ptr<SoccerClub> new_team, ReadFileUtil& read_file_util, std::vector<std::shared_ptr<Player> >& players_list);
 
-        std::shared_ptr<Player> find_player_by_name(std::string fullname,  std::vector<std::shared_ptr<Player> >& players_list);
-        void update_teams_stats(std::shared_ptr<MatchResult> tmp_game_result, std::vector<std::shared_ptr<SoccerClub> >& teams_list);
-        std::shared_ptr<SoccerClub> find_soccer_club_by_name(std::string fullname, std::vector<std::shared_ptr<SoccerClub> >& teams_list);
-        void update_injured_players(ReadFileUtil& read_file_util, std::vector<std::shared_ptr<Player> >& players_list);
-        void update_players_yellow_card(ReadFileUtil& read_file_util, std::vector<std::shared_ptr<Player> >& players_list);
-        void update_players_red_card(ReadFileUtil& read_file_util, std::vector<std::shared_ptr<Player> >& players_list);
-        void update_players_scores(ReadFileUtil& read_file_util, std::vector<std::shared_ptr<Player> >& players_list);
-
         void get_scorers_assists_own_goals(ReadFileUtil& read_file_util,std::vector<std::string>& scorers, std::vector<std::string>& assists,
             std::vector<std::string>& onw_goals );
 

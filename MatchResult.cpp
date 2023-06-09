@@ -2,6 +2,7 @@
 #include "MagicNumbers.hpp"
 #include <iostream>
 #include <string>
+#include <memory>
 #include "Exceptions.hpp"
 
 using namespace std;
@@ -99,4 +100,55 @@ void MatchResult::print(){
         cout << "  " << tmp ; 
     }
     cout << endl;
+}
+
+
+
+void MatchResult::update_teams_stat(vector<shared_ptr<SoccerClub> >& teams_list){
+    shared_ptr<SoccerClub> first_team = find_soccer_club_by_name(first_team_name, teams_list);
+    shared_ptr<SoccerClub> second_team = find_soccer_club_by_name(second_team_name, teams_list);
+    first_team->add_points(first_team_points());
+    second_team->add_points(second_team_points());
+    first_team->add_goals_for(first_team_goals_for());
+    second_team->add_goals_for(second_team_goals_for());
+    first_team->add_goals_against(first_team_goals_against());
+    second_team->add_goals_against(second_team_goals_against());
+
+}
+
+
+void MatchResult::update_injured_players(vector<shared_ptr<Player> >& players_list){
+    for(string tmp : injured_players_list){
+            find_player_by_name(tmp, players_list)->injured();
+    } 
+}
+
+void MatchResult::update_yellow_cards(vector<shared_ptr<Player> >& players_list){
+    for(string tmp : yellow_cards_list){
+            find_player_by_name(tmp, players_list)->add_yellow_card();
+    }   
+}
+
+void MatchResult::update_red_cards(vector<shared_ptr<Player> >& players_list){
+    for(string tmp : red_card_list){
+            find_player_by_name(tmp, players_list)->add_red_Card();
+    }   
+}
+
+shared_ptr<SoccerClub> MatchResult::find_soccer_club_by_name(string fullname, vector<shared_ptr<SoccerClub> >& teams_list ){
+    for(shared_ptr<SoccerClub> tmp : teams_list){
+        if(tmp->has_certain_name(fullname)){
+            return tmp;
+        }
+    }
+    return NULL;
+}
+
+shared_ptr<Player> MatchResult::find_player_by_name(string fullname, vector<shared_ptr<Player> >& players_list){
+    for(shared_ptr<Player> tmp : players_list){
+        if(tmp->has_certain_name(fullname)){
+            return tmp;
+        }
+    }
+    return NULL;
 }

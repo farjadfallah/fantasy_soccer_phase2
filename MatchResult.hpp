@@ -3,8 +3,10 @@
 
 #include<string>
 #include <vector>
+#include <memory>
 #include "SoccerClub.hpp"
 #include "Player.hpp"
+
 class MatchResult{
     public:
         MatchResult(std::string _first_team, std::string _second_team, int _first_team_goals,int _second_team_goals,
@@ -21,13 +23,24 @@ class MatchResult{
         int first_team_goals_against();
         int second_team_goals_against();
 
-        // void update_teams_stat(std::vector<SoccerClub> teams_list);
+        void update_players_stat(std::vector<std::shared_ptr<Player> >& players_list);
+        void update_teams_stat(std::vector<std::shared_ptr<SoccerClub> >& teams_list);
     private:
         std::string first_team_name, second_team_name;
         int first_team_goals, second_team_goals;
         std::vector<std::string> injured_players_list, yellow_cards_list, red_card_list;
         std::vector<std::string> first_team_lineup, second_team_linup;
         std::vector<std::string> scorers, assists, own_goals;
+
+
+
+        std::shared_ptr<SoccerClub> MatchResult::find_soccer_club_by_name(std::string fullname, std::vector<std::shared_ptr<SoccerClub> >& teams_list );
+        std::shared_ptr<Player> MatchResult::find_player_by_name(std::string fullname, std::vector<std::shared_ptr<Player> >& players_list);
+        
+        void update_injured_players(std::vector<std::shared_ptr<Player> >& players_list);
+        void update_yellow_cards(std::vector<std::shared_ptr<Player> >& players_list);
+        void update_red_cards(std::vector<std::shared_ptr<Player> >& players_list);
+
 };
 
 #endif

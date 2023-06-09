@@ -100,97 +100,42 @@ void FileReader::pass_week(int active_week, vector<shared_ptr<WeekMatchResults> 
     for(int i=0 ; i<10; i++){
         shared_ptr<MatchResult> tmp_game_result = get_result(read_file_util); 
         tmp_week_results->add_result(tmp_game_result);
-        tmp_week_results->update_teams_stat(teams_list);
-        // update_teams_stats(tmp_game_result, teams_list);
-        // update_injured_players(read_file_util, players_list);
-        // update_players_yellow_card(read_file_util, players_list); 
-        // update_players_red_card(read_file_util, players_list);
+        tmp_game_result->update_teams_stat(teams_list);
+        tmp_game_result->update_players_stat(players_list);
+
         // update_players_scores(read_file_util, players_list);
     }
     weeks_results_list.push_back(tmp_week_results);
     
 }
 
-void FileReader::update_teams_stats(shared_ptr<MatchResult> game, vector<shared_ptr<SoccerClub> >& teams_list){
-    shared_ptr<SoccerClub> first_team = find_soccer_club_by_name(game->first_team(), teams_list);
-    shared_ptr<SoccerClub> second_team = find_soccer_club_by_name(game->second_team(), teams_list);
-    first_team->add_points(game->first_team_points());
-    second_team->add_points(game->second_team_points());
-    first_team->add_goals_for(game->first_team_goals_for());
-    second_team->add_goals_for(game->second_team_goals_for());
-    first_team->add_goals_against(game->first_team_goals_against());
-    second_team->add_goals_against(game->second_team_goals_against());
-}
+// void FileReader::update_players_scores(ReadFileUtil& read_file_util, vector<shared_ptr<Player> >& players_list){
 
-shared_ptr<SoccerClub> FileReader::find_soccer_club_by_name(string fullname, vector<shared_ptr<SoccerClub> >& teams_list ){
-    for(shared_ptr<SoccerClub> tmp : teams_list){
-        if(tmp->has_certain_name(fullname)){
-            return tmp;
-        }
-    }
-    return NULL;
-}
-
-shared_ptr<Player> FileReader::find_player_by_name(string fullname, vector<shared_ptr<Player> >& players_list){
-    for(shared_ptr<Player> tmp : players_list){
-        if(tmp->has_certain_name(fullname)){
-            return tmp;
-        }
-    }
-    return NULL;
-}
-
-void FileReader::update_injured_players(ReadFileUtil& read_file_util, vector<shared_ptr<Player> >& players_list){
-    vector<string> selected_players_list; 
-    get_players_list(selected_players_list, read_file_util);
-    for(string tmp : selected_players_list){
-            find_player_by_name(tmp, players_list)->injured();
-    } 
-}
-
-void FileReader::update_players_yellow_card(ReadFileUtil& read_file_util, vector<shared_ptr<Player> >& players_list){
-    vector<string> selected_players_list; 
-    get_players_list(selected_players_list, read_file_util);
-    for(string tmp : selected_players_list){
-            find_player_by_name(tmp, players_list)->add_yellow_card();
-    }   
-}
-
-void FileReader::update_players_red_card(ReadFileUtil& read_file_util, vector<shared_ptr<Player> >& players_list){
-    vector<string> selected_players_list; 
-    get_players_list(selected_players_list, read_file_util);
-    for(string tmp : selected_players_list){
-            find_player_by_name(tmp, players_list)->add_red_Card();
-    }
-}
-
-void FileReader::update_players_scores(ReadFileUtil& read_file_util, vector<shared_ptr<Player> >& players_list){
-
-    bool state = true;
-    string data;
-    while(true){
-        if(state == false){
-            state = true;
-            break;
-        }
-        data.clear();
-        state = read_file_util.get_Player_from_file(data);
-        if(data !=""){
-            string player_name, score_str;
-            double score;
-            int delimiter_location=0;
-            for(int i=0; i<data.size(); i++){
-                if(data[i] == ':'){
-                    delimiter_location = i;
-                }
-            }
-            player_name = data.substr(0, delimiter_location);
-            score_str = data.substr(delimiter_location + 1, data.size());
-            score = stod(score_str);
-            find_player_by_name(player_name, players_list)->edit_new_score(score);
-        }
-    }
-}
+//     bool state = true;
+//     string data;
+//     while(true){
+//         if(state == false){
+//             state = true;
+//             break;
+//         }
+//         data.clear();
+//         state = read_file_util.get_Player_from_file(data);
+//         if(data !=""){
+//             string player_name, score_str;
+//             double score;
+//             int delimiter_location=0;
+//             for(int i=0; i<data.size(); i++){
+//                 if(data[i] == ':'){
+//                     delimiter_location = i;
+//                 }
+//             }
+//             player_name = data.substr(0, delimiter_location);
+//             score_str = data.substr(delimiter_location + 1, data.size());
+//             score = stod(score_str);
+//             find_player_by_name(player_name, players_list)->edit_new_score(score);
+//         }
+//     }
+// }
 
 void FileReader::get_scorers_assists_own_goals(ReadFileUtil& read_file_util,vector<string>& scorers,vector<string>& assists,
         vector<string>& own_goals ){
