@@ -33,6 +33,8 @@ class FileReader{
         void update_players_red_card(ReadFileUtil& read_file_util, std::vector<std::shared_ptr<Player> >& players_list);
         void update_players_scores(ReadFileUtil& read_file_util, std::vector<std::shared_ptr<Player> >& players_list);
 
+        void get_scorers_assists_own_goals(ReadFileUtil& read_file_util,std::vector<std::string>& scorers, std::vector<std::string>& assists,
+            std::vector<std::string>& onw_goals );
 
 };
 #endif

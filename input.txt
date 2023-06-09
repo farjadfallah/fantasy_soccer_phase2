@@ -1,0 +1,2 @@
+POST register_admin ? username admin password 123456
+POST pass_week
