@@ -116,10 +116,214 @@ void MatchResult::update_teams_stat(vector<shared_ptr<SoccerClub> >& teams_list)
 
 }
 
+void MatchResult::update_players_stat(vector<shared_ptr<Player> >& players_list){
+    update_injured_players(players_list);
+    update_red_cards(players_list);
+    update_yellow_cards(players_list);
+    update_players_score(players_list);
+}
+
+
+void MatchResult::update_players_score(vector<shared_ptr<Player> >& players_list){
+    vector<double> first_team_scores(11), second_team_scores(11);
+    fill_raw_scores_list(first_team_scores, second_team_scores);
+    for(int i=0; i<first_team_lineup.size(); i++){
+        shared_ptr<Player> selected_player = find_player_by_name(first_team_lineup[i], players_list);
+        // double selected_score = to_standardized_score(first_team_scores[i]);
+        // selected_player->edit_new_score(selected_score);
+        cout << "name: |" << first_team_lineup[i] << "| score: " << first_team_scores[i] << endl;
+    }
+    for(int i=0; i<second_team_linup.size(); i++){
+        shared_ptr<Player> selected_player = find_player_by_name(second_team_linup[i], players_list);
+        // double selected_score = to_standardized_score(second_team_scores[i]);
+        // selected_player->edit_new_score(selected_score);
+        cout << "name: |" << second_team_linup[i] << "| score: " << second_team_scores[i] << endl;
+    }
+}
+
+void MatchResult::add_points_to_all_team_players(std::vector<double>& team_list, double points){
+    for(int i=0; i<team_list.size(); i++){
+        team_list[i] += points;
+    }
+}
+
+
+void MatchResult::fill_raw_scores_list(vector<double>& first_team_scores, vector<double>& second_team_scores){
+    //first rule
+    if(first_team_goals > second_team_goals){
+        add_points_to_all_team_players(first_team_scores, 5);
+        add_points_to_all_team_players(second_team_scores, -1);
+    }
+    if(first_team_goals < second_team_goals){
+        add_points_to_all_team_players(first_team_scores, -1);
+        add_points_to_all_team_players(second_team_scores, 5);
+    }
+    if(first_team_goals == second_team_goals){
+        add_points_to_all_team_players(first_team_scores, 1);
+        add_points_to_all_team_players(second_team_scores, 1);
+    }
+    
+    //cleanshit
+    if(second_team_goals == 0){
+        first_team_scores[GK] +=5;
+        for(int i = LB; i < LM; i++){
+            first_team_scores[i] +=2;
+        }
+        for(int i = LM; i < LW; i++){
+            first_team_scores[i] +=1;
+        }
+    }
+    if(first_team_goals == 0){
+        second_team_scores[GK] +=5;
+        for(int i = LB; i < LM; i++){
+            second_team_scores[i] +=2;
+        }
+        for(int i = LM; i < LW; i++){
+            second_team_scores[i] +=1;
+        }
+    }
+
+    //each goal scored
+    for(int i=0 ; i<first_team_lineup.size(); i++){
+        if(is_inside(first_team_lineup[i], scorers)){
+            second_team_scores[GK] --;
+            if(i >= LB && i <= RB){
+                first_team_scores[i] +=4;
+            }
+            if(i >= LM && i <= RM){
+                first_team_scores[i] +=3;
+            }
+            if(i >= LW && i <= ST){
+                first_team_scores[i] +=3;
+            }
+        }
+    }
+    for(int i=0 ; i<second_team_linup.size(); i++){
+        if(is_inside(second_team_linup[i], scorers)){
+            first_team_scores[GK] --;
+            if(i >= LB && i <= RB){
+                second_team_scores[i] +=4;
+            }
+            if(i >= LM && i <= RM){
+                second_team_scores[i] +=3;
+            }
+            if(i >= LW && i <= ST){
+                second_team_scores[i] +=3;
+            }
+        }
+    }
+
+    //each assist done
+    for(int i=0 ; i<first_team_lineup.size(); i++){
+        if(is_inside(first_team_lineup[i], assists)){
+            if(i >= LB && i <= RB){
+                first_team_scores[i] +=3;
+            }
+            if(i >= LM && i <= RM){
+                first_team_scores[i] +=2;
+            }
+            if(i >= LW && i <= ST){
+                first_team_scores[i] +=1;
+            }
+        }
+    }
+    for(int i=0 ; i<second_team_linup.size(); i++){
+        if(is_inside(second_team_linup[i], assists)){
+            if(i >= LB && i <= RB){
+                second_team_scores[i] +=3;
+            }
+            if(i >= LM && i <= RM){
+                second_team_scores[i] +=2;
+            }
+            if(i >= LW && i <= ST){
+                second_team_scores[i] +=1;
+            }
+        }
+    }
+
+    //each own goal
+    for(int i=0 ; i<first_team_lineup.size(); i++){
+        if(is_inside(first_team_lineup[i], own_goals)){
+            first_team_scores[i] --;
+        }
+    }
+    for(int i=0 ; i<second_team_linup.size(); i++){
+        if(is_inside(second_team_linup[i], own_goals)){
+            second_team_scores[i] --;
+        }
+    }
+
+    //forward not scoring a goal
+    for(int i=0 ; i<first_team_lineup.size(); i++){
+        if(!is_inside(first_team_lineup[i], scorers)){
+            if(i >= LW && i <= ST){
+                first_team_scores[i] --;
+            }
+        }
+    }
+    for(int i=0 ; i<second_team_linup.size(); i++){
+        if(!is_inside(second_team_linup[i], scorers)){
+            if(i >= LW && i <= ST){
+                second_team_scores[i] --;
+            }
+        }
+    }
+
+    //reducing score for goals against
+    for(int i=0 ; i<first_team_lineup.size(); i++){
+        if(is_inside(first_team_lineup[i], scorers)){
+            if(i == RW || i == RB){
+                second_team_scores[LB] --;
+            }
+            if(i == LW || i == LB){
+                second_team_scores[RB] --;
+            }
+            if(i == ST || i == RCB || i == LCB){
+                second_team_scores[LCB] --;
+                second_team_scores[RCB] --;
+            }
+            if(i >= LM && i <= RM){
+                second_team_scores[LM] --;
+                second_team_scores[CM] --;
+                second_team_scores[RM] --;
+            }
+        }
+    }
+    for(int i=0 ; i<second_team_linup.size(); i++){
+        if(is_inside(second_team_linup[i], scorers)){
+            if(i == RW || i == RB){
+                first_team_scores[LB] --;
+            }
+            if(i == LW || i == LB){
+                first_team_scores[RB] --;
+            }
+            if(i == ST || i == RCB || i == LCB){
+                first_team_scores[LCB] --;
+                first_team_scores[RCB] --;
+            }
+            if(i >= LM && i <= RM){
+                first_team_scores[LM] --;
+                first_team_scores[CM] --;
+                first_team_scores[RM] --;
+            }
+        }
+    }
+
+}
+
+bool MatchResult::is_inside(std::string name, std::vector<std::string> list){
+    for(string tmp: list){
+        if(name == tmp){
+            return true;
+        }
+    }
+    return false;
+}
 
 void MatchResult::update_injured_players(vector<shared_ptr<Player> >& players_list){
     for(string tmp : injured_players_list){
-            find_player_by_name(tmp, players_list)->injured();
+        cout << "this is the name: |"<< tmp << "|  " << find_player_by_name(tmp, players_list) << endl;
+        find_player_by_name(tmp, players_list)->injured();
     } 
 }
 

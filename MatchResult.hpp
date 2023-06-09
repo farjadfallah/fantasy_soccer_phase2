@@ -31,16 +31,20 @@ class MatchResult{
         std::vector<std::string> injured_players_list, yellow_cards_list, red_card_list;
         std::vector<std::string> first_team_lineup, second_team_linup;
         std::vector<std::string> scorers, assists, own_goals;
+        
 
 
-
-        std::shared_ptr<SoccerClub> MatchResult::find_soccer_club_by_name(std::string fullname, std::vector<std::shared_ptr<SoccerClub> >& teams_list );
-        std::shared_ptr<Player> MatchResult::find_player_by_name(std::string fullname, std::vector<std::shared_ptr<Player> >& players_list);
+        std::shared_ptr<SoccerClub> find_soccer_club_by_name(std::string fullname, std::vector<std::shared_ptr<SoccerClub> >& teams_list );
+        std::shared_ptr<Player> find_player_by_name(std::string fullname, std::vector<std::shared_ptr<Player> >& players_list);
         
         void update_injured_players(std::vector<std::shared_ptr<Player> >& players_list);
         void update_yellow_cards(std::vector<std::shared_ptr<Player> >& players_list);
         void update_red_cards(std::vector<std::shared_ptr<Player> >& players_list);
+        void update_players_score(std::vector<std::shared_ptr<Player> >& players_list);
 
-};
+        void fill_raw_scores_list(std::vector<double>& first_team_scores, std::vector<double>& second_team_scores);
+        bool is_inside(std::string name, std::vector<std::string> list);
+        void add_points_to_all_team_players(std::vector<double>& team_list, double points);
+};  
 
 #endif

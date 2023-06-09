@@ -10,6 +10,21 @@ const std::string FORWARD = "fw";
 
 const std::vector<std::string> POSITIONS_LIST = {"gk", "df", "md", "fw" };
 
+
+enum {
+    GK,
+    LB,
+    LCB,
+    RCB,
+    RB,
+    LM,
+    CM,
+    RM,
+    LW,
+    ST,
+    RW
+};
+
 const int THISWEEK = -1;
 const std::string ALL_POSTS = "";
 
@@ -83,4 +98,5 @@ const std::string PLAYER_NAME_FEILD = "name";
 
 //messages
 const std::string SUCCESS_MESSAGE = "OK";
+
 #endif
