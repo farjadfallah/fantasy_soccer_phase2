@@ -132,13 +132,13 @@ void MatchResult::update_players_score(vector<shared_ptr<Player> >& players_list
         shared_ptr<Player> selected_player = find_player_by_name(first_team_lineup[i], players_list);
         double selected_score = to_standardized_score(first_team_scores[i]);
         selected_player->edit_new_score(selected_score);
-        cout << "name: |" << first_team_lineup[i] << "| raw score: " << first_team_scores[i] << " score: " << selected_score << endl;
+        // cout << "name: |" << first_team_lineup[i] << "| raw score: " << first_team_scores[i] << " score: " << selected_score << endl;
     }
     for(int i=0; i<second_team_linup.size(); i++){
         shared_ptr<Player> selected_player = find_player_by_name(second_team_linup[i], players_list);
         double selected_score = to_standardized_score(second_team_scores[i]);
         selected_player->edit_new_score(selected_score);
-        cout << "name: |" << second_team_linup[i] << "| raw score: " << second_team_scores[i] << " score: " << selected_score << endl;
+        // cout << "name: |" << second_team_linup[i] << "| raw score: " << second_team_scores[i] << " score: " << selected_score << endl;
     }
 }
 
@@ -300,7 +300,6 @@ bool MatchResult::is_inside(std::string name, std::vector<std::string> list){
 
 void MatchResult::update_injured_players(vector<shared_ptr<Player> >& players_list){
     for(string tmp : injured_players_list){
-        cout << "this is the name: |"<< tmp << "|  " << find_player_by_name(tmp, players_list) << endl;
         find_player_by_name(tmp, players_list)->injured();
     } 
 }

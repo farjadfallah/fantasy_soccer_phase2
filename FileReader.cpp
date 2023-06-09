@@ -185,6 +185,6 @@ shared_ptr<MatchResult>  FileReader::get_result(ReadFileUtil& read_file_util){
     get_players_list(second_team_linup, read_file_util);
     shared_ptr<MatchResult> tmp_game_result = make_shared<MatchResult>(first_team_str, second_team_str, first_goal, second_goal,
         injured_players_list,yellow_cards_list, red_card_list,first_team_lineup, second_team_linup, scorers, assists, own_goals);
-    tmp_game_result->print();
+    // tmp_game_result->print();
     return tmp_game_result;
 }
