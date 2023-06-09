@@ -76,7 +76,10 @@ double Player::average_points(){
             active_days ++;
         }
     }
-    return total_rating/active_days;
+    if(active_days!=0){
+        return total_rating/active_days;
+    }
+    return 0;
 }
 
 bool Player::can_play_next_week(){
