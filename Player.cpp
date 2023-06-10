@@ -157,7 +157,7 @@ string Player::players_of_the_team_output(){
     stream << fixed;
     stream << this->average_points();  
     
-    return "name: " + full_name + " | role: " + this->get_position() + " | score: " + stream.str() + " | cost: " + to_string(price);
+    return "name: " + full_name + " | role: " + this->get_position() + " | score: " + stream.str() + " | cost: " + to_string(price) + " | clean sheets: " + to_string(clean_sheets) + " | goals: " + to_string(goals) + " | assists: " + to_string(assists);
 }
 
 std::string Player::fantasy_squad_output(){
@@ -177,4 +177,15 @@ void Player::reduce_the_price_from_budget(int& budget){
 
 void Player::pay_back_the_price_to_budget(int& budget){
     budget += price;
+}
+
+
+void Player::add_clean_sheet(){
+    clean_sheets ++;
+}
+void Player::add_goal(){
+    goals++;
+}
+void Player::add_asist(){
+    assists++;
 }

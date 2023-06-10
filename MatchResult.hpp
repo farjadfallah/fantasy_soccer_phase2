@@ -52,6 +52,11 @@ class MatchResult{
         void reduce_points_forward_not_scoring(std::vector<std::string> attacking_team_lineup, std::vector<double>& attaking_team_scores);
         void reduce_points_on_recieving_goal(std::vector<std::string> attacking_team_lineup, std::vector<double>& defending_team_scores);
 
+        void update_players_stats(std::vector<std::shared_ptr<Player> >& players_list);
+        void update_players_clean_sheet(std::vector<std::shared_ptr<Player> >& players_list);
+        void update_players_goals(std::vector<std::shared_ptr<Player> >& players_list);
+        void uodate_players_assists(std::vector<std::shared_ptr<Player> >& players_list);
+
         bool is_inside(std::string name, std::vector<std::string> list);
         void add_points_to_all_team_players(std::vector<double>& team_list, double points);
         double to_standardized_score(double raw_score);

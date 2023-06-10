@@ -103,7 +103,6 @@ void FileReader::pass_week(int active_week, vector<shared_ptr<WeekMatchResults> 
         tmp_week_results->add_result(tmp_game_result);
         tmp_game_result->update_teams_stat(teams_list);
         tmp_game_result->update_players_stat(players_list);
-        // update_players_scores(read_file_util, players_list);
     }
     weeks_results_list.push_back(tmp_week_results);
     

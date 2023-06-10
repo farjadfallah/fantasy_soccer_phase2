@@ -24,7 +24,9 @@ class Player{
         bool can_be_bought_with(int budget);
         void reduce_the_price_from_budget(int& budget);
         void pay_back_the_price_to_budget(int& budget);
-
+        void add_clean_sheet();
+        void add_goal();
+        void add_asist();
 
         std::string team_of_the_week_output(int week);
         std::string players_of_the_team_output();
@@ -35,6 +37,9 @@ class Player{
         int injury = NOT_INJURED;
         int yellow_card = 0;
         bool missed_next_match = false;
+        int clean_sheets =0;
+        int goals=0;
+        int assists=0;
         
         void add_new_point();
         void pass_one_week_of_injury();

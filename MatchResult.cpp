@@ -121,9 +121,40 @@ void MatchResult::update_players_stat(vector<shared_ptr<Player> >& players_list)
     update_red_cards(players_list);
     update_yellow_cards(players_list);
     update_players_score(players_list);
+    update_players_stats(players_list);
     //add clean sheets and goals and ...
 }
 
+void MatchResult::update_players_stats(vector<shared_ptr<Player> >& players_list){
+    update_players_clean_sheet(players_list);
+    update_players_goals(players_list);
+    uodate_players_assists(players_list);
+}
+
+void MatchResult::update_players_clean_sheet(vector<shared_ptr<Player> >& players_list){
+    if(second_team_goals == 0){
+        for(int i = GK; i <= RW; i++){
+            find_player_by_name(first_team_lineup[i], players_list)->add_clean_sheet();
+        }
+    }
+    if(first_team_goals == 0){
+        for(int i = GK; i <= RW; i++){
+            find_player_by_name(second_team_linup[i], players_list)->add_clean_sheet();
+        }
+    }
+}
+
+void MatchResult::update_players_goals(vector<shared_ptr<Player> >& players_list){
+    for(string tmp : scorers){
+        find_player_by_name(tmp, players_list)->add_goal();
+    }
+}
+
+void MatchResult::uodate_players_assists(vector<shared_ptr<Player> >& players_list){
+    for(string tmp : assists){
+        find_player_by_name(tmp, players_list)->add_asist();
+    }
+}
 
 void MatchResult::update_players_score(vector<shared_ptr<Player> >& players_list){
     vector<double> first_team_scores(11), second_team_scores(11);
