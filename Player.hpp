@@ -7,7 +7,7 @@
 
 class Player{
     public:
-        Player(std::string _full_name);
+        Player(std::string _full_name, int _price);
         virtual std::string get_position() = 0;
         bool has_certain_name(std::string name);
         void injured();
@@ -36,6 +36,6 @@ class Player{
         void pass_one_week_of_injury();
         void reset_misses_next_match_status();
         double standardize_digits(double number, int digits);
-
+        int price = 0;
 };
 #endif

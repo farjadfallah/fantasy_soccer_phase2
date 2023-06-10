@@ -7,8 +7,9 @@
 
 using namespace std;
 
-Player::Player(string _full_name){
+Player::Player(string _full_name, int _price){
     full_name = _full_name;
+    price = _price;
 }
 
 bool Player::has_certain_name(string name){
@@ -156,7 +157,7 @@ string Player::players_of_the_team_output(){
     stream << fixed;
     stream << this->average_points();  
     
-    return "name: " + full_name + " | role: " + this->get_position() + " | score: " + stream.str();
+    return "name: " + full_name + " | role: " + this->get_position() + " | score: " + stream.str() + " | cost: " + to_string(price);
 }
 
 std::string Player::fantasy_squad_output(){

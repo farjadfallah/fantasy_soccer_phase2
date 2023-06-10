@@ -32,9 +32,10 @@ void FileReader::get_initial_data(vector<shared_ptr<SoccerClub> >& teams_list, v
 
 void FileReader::find_goalkeepers_from_initial_file(std::shared_ptr<SoccerClub> new_team, ReadFileUtil& read_file_util,  vector<shared_ptr<Player> >& players_list){
     vector<string> selected_players_list; 
-    get_players_list(selected_players_list, read_file_util);
-    for(string tmp : selected_players_list){
-        shared_ptr<Player> new_player = make_shared<GoalKeeper>(tmp);
+    vector<int> selected_players_price_list;
+    get_players_price_list(read_file_util, selected_players_list, selected_players_price_list);
+    for(int i=0; i<selected_players_list.size(); i++){
+        shared_ptr<Player> new_player = make_shared<GoalKeeper>(selected_players_list[i], selected_players_price_list[i]);
         new_team->add_player(new_player);
         players_list.push_back(new_player);
     }
@@ -43,35 +44,35 @@ void FileReader::find_goalkeepers_from_initial_file(std::shared_ptr<SoccerClub> 
 
 void FileReader::find_defenders_from_initial_file(std::shared_ptr<SoccerClub> new_team, ReadFileUtil& read_file_util,  vector<shared_ptr<Player> >& players_list){
     vector<string> selected_players_list; 
-    get_players_list(selected_players_list, read_file_util);
-    for(string tmp : selected_players_list){
-        shared_ptr<Player> new_player = make_shared<Defender>(tmp);
+    vector<int> selected_players_price_list;
+    get_players_price_list(read_file_util, selected_players_list, selected_players_price_list);
+    for(int i=0; i<selected_players_list.size(); i++){
+        shared_ptr<Player> new_player = make_shared<Defender>(selected_players_list[i], selected_players_price_list[i]);
         new_team->add_player(new_player);
         players_list.push_back(new_player);
     }
-
 }
 
 void FileReader::find_midfielders_from_initial_file(std::shared_ptr<SoccerClub> new_team, ReadFileUtil& read_file_util,  vector<shared_ptr<Player> >& players_list){
     vector<string> selected_players_list; 
-    get_players_list(selected_players_list, read_file_util);
-    for(string tmp : selected_players_list){
-        shared_ptr<Player> new_player = make_shared<Midfielder>(tmp);
+    vector<int> selected_players_price_list;
+    get_players_price_list(read_file_util, selected_players_list, selected_players_price_list);
+    for(int i=0; i<selected_players_list.size(); i++){
+        shared_ptr<Player> new_player = make_shared<Midfielder>(selected_players_list[i], selected_players_price_list[i]);
         new_team->add_player(new_player);
         players_list.push_back(new_player);
     }
-
 }
 
 void FileReader::find_Forwards_from_initial_file(std::shared_ptr<SoccerClub> new_team, ReadFileUtil& read_file_util,  vector<shared_ptr<Player> >& players_list){
     vector<string> selected_players_list; 
-    get_players_list(selected_players_list, read_file_util);
-    for(string tmp : selected_players_list){
-        shared_ptr<Player> new_player = make_shared<Forward>(tmp);
+    vector<int> selected_players_price_list;
+    get_players_price_list(read_file_util, selected_players_list, selected_players_price_list);
+    for(int i=0; i<selected_players_list.size(); i++){
+        shared_ptr<Player> new_player = make_shared<Forward>(selected_players_list[i], selected_players_price_list[i]);
         new_team->add_player(new_player);
         players_list.push_back(new_player);
     }
-
 }
 
 void FileReader::get_players_list(vector<string>& selected_players_list, ReadFileUtil& read_file_util){
@@ -108,33 +109,34 @@ void FileReader::pass_week(int active_week, vector<shared_ptr<WeekMatchResults> 
     
 }
 
-// void FileReader::update_players_scores(ReadFileUtil& read_file_util, vector<shared_ptr<Player> >& players_list){
-
-//     bool state = true;
-//     string data;
-//     while(true){
-//         if(state == false){
-//             state = true;
-//             break;
-//         }
-//         data.clear();
-//         state = read_file_util.get_Player_from_file(data);
-//         if(data !=""){
-//             string player_name, score_str;
-//             double score;
-//             int delimiter_location=0;
-//             for(int i=0; i<data.size(); i++){
-//                 if(data[i] == ':'){
-//                     delimiter_location = i;
-//                 }
-//             }
-//             player_name = data.substr(0, delimiter_location);
-//             score_str = data.substr(delimiter_location + 1, data.size());
-//             score = stod(score_str);
-//             find_player_by_name(player_name, players_list)->edit_new_score(score);
-//         }
-//     }
-// }
+void FileReader::get_players_price_list(ReadFileUtil& read_file_util, vector<string>& players_name_list,
+                                        vector<int>& player_price_list){
+    bool state = true;
+    string data;
+    while(true){
+        if(state == false){
+            state = true;
+            break;
+        }
+        data.clear();
+        state = read_file_util.get_Player_from_file(data);
+        if(data !=""){
+            string player_name, price_str;
+            double price;
+            int delimiter_location=0;
+            for(int i=0; i<data.size(); i++){
+                if(data[i] == ':'){
+                    delimiter_location = i;
+                }
+            }
+            player_name = data.substr(0, delimiter_location);
+            price_str = data.substr(delimiter_location + 1, data.size());
+            price = stod(price_str);
+            players_name_list.push_back(player_name);
+            player_price_list.push_back(price);
+        }
+    }
+}
 
 void FileReader::get_scorers_assists_own_goals(ReadFileUtil& read_file_util,vector<string>& scorers,vector<string>& assists,
         vector<string>& own_goals ){

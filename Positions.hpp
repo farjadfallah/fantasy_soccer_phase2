@@ -6,25 +6,25 @@
 class GoalKeeper : public Player {
     public:
         std::string get_position();
-        GoalKeeper(std::string _full_name);
+        GoalKeeper(std::string _full_name, int _price);
 };
 
 class Defender : public Player {
     public:
         std::string get_position();
-        Defender(std::string _full_name);
+        Defender(std::string _full_name, int _price);
 };
 
 class Midfielder : public Player {
     public:
         std::string get_position();
-        Midfielder(std::string _full_name);
+        Midfielder(std::string _full_name, int _price);
 };
 
 class Forward : public Player {
     public:
             std::string get_position();
-        Forward(std::string _full_name);
+        Forward(std::string _full_name, int _price);
 };
 
 #endif
