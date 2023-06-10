@@ -16,7 +16,7 @@ class Player{
         void edit_new_score(double new_score);
         double get_score_at_week(int week);
         double total_points();
-        double average_points();
+        
         bool can_play_next_week();
         void pass_week();
         bool is_better_than_in_week(std::shared_ptr<Player> compared_to, int week);
@@ -29,22 +29,27 @@ class Player{
         void add_asist();
 
         std::string team_of_the_week_output(int week);
-        std::string players_of_the_team_output();
+        virtual std::string players_of_the_team_output() = 0;
         std::string fantasy_squad_output();
     private:
-        std::string full_name;
         std::vector<double> ratings_each_week;
         int injury = NOT_INJURED;
         int yellow_card = 0;
         bool missed_next_match = false;
-        int clean_sheets =0;
-        int goals=0;
-        int assists=0;
+        
         
         void add_new_point();
         void pass_one_week_of_injury();
         void reset_misses_next_match_status();
         double standardize_digits(double number, int digits);
+
+    protected:
+        std::string full_name;
+        int clean_sheets =0;
+        int goals=0;
+        int assists=0;
         int price = 0;
+
+        double average_points();
 };
 #endif
