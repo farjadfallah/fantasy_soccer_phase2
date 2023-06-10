@@ -178,6 +178,13 @@ bool FantasyTeam::is_better_than(shared_ptr<FantasyTeam> compared_to){
     return false;
 }
 
+bool FantasyTeam::captain_is(std::shared_ptr<Player> being_checked){
+    if(being_checked == captain_list_each_week[captain_list_each_week.size()-1]){
+        return true;
+    }
+    return false;
+}
+
 string FantasyTeam::user_ranking_output(){
     stringstream stream;  
     stream.precision(MAX_PERCISION_IN_DOUBLES);
@@ -202,4 +209,8 @@ string FantasyTeam::fantasy_squad_points_output(){
 
 string FantasyTeam::show_budget_output(){
     return to_string(budget);
+}
+
+string FantasyTeam::fantasy_squad_cost_output(){
+    return to_string(DEAFUALT_BUDGET - budget);
 }

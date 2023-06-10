@@ -45,13 +45,25 @@ void Printer::print_matches_result_league(std::shared_ptr<WeekMatchResults> sele
 
 
 void Printer::print_fantasy_squad(shared_ptr<FantasyTeam> selected_team, std::vector<std::shared_ptr<Player> >& squad){
-    cout << "fantasy_team: " << selected_team->fantasy_squad_name_output() << endl;
-    cout << "Goalkeeper: " << squad[0]->fantasy_squad_output() << endl;
-    cout << "Defender1: " << squad[1]->fantasy_squad_output() << endl;
-    cout << "Defender2: " << squad[2]->fantasy_squad_output() << endl;
-    cout << "Midfielder: " << squad[3]->fantasy_squad_output() << endl;
-    cout << "Striker: " << squad[4]->fantasy_squad_output() << endl;
-    cout << "Total Points: " << selected_team->fantasy_squad_points_output() << endl;
+    cout << "fantasy_team: " << selected_team->fantasy_squad_name_output();
+    cout  << endl << "Goalkeeper: " << squad[0]->fantasy_squad_output();
+    print_captain_if_needed(selected_team, squad[0]);
+    cout  << endl << "Defender1: " << squad[1]->fantasy_squad_output();
+    print_captain_if_needed(selected_team, squad[1]);
+    cout  << endl << "Defender2: " << squad[2]->fantasy_squad_output() ;
+    print_captain_if_needed(selected_team, squad[2]);
+    cout  << endl << "Midfielder: " << squad[3]->fantasy_squad_output() ;
+    print_captain_if_needed(selected_team, squad[3]);
+    cout  << endl << "Striker: " << squad[4]->fantasy_squad_output() ;
+    print_captain_if_needed(selected_team, squad[4]);
+    cout  << endl << "Total Points: " << selected_team->fantasy_squad_points_output() << endl;
+    cout  << "Team Cost: " << selected_team->fantasy_squad_cost_output() << endl;
+}
+
+void Printer::print_captain_if_needed(const shared_ptr<FantasyTeam>& selected_team, const shared_ptr<Player>& being_checked){
+    if(selected_team->captain_is(being_checked)){
+        cout << " (CAPTAIN)";
+    }
 }
 
 void Printer::print_budget(const shared_ptr<FantasyTeam>& selected_fantasy_team){

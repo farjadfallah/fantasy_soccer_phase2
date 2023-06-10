@@ -26,3 +26,10 @@ POST sell_player ? name C. Mepham
 GET show_budget
 POST buy_player ? name C. Mepham
 GET show_budget
+GET squad
+POST logout
+POST register_admin ? username admin password 123456
+POST pass_week
+POST logout
+POST login user_name farjad password fallah
+GET squad

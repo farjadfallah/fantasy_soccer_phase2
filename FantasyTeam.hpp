@@ -17,11 +17,13 @@ class FantasyTeam {
         void pass_week(int new_week);
         std::vector<std::shared_ptr<Player> > squad();
         bool is_better_than(std::shared_ptr<FantasyTeam> compared_to);
+        bool captain_is(std::shared_ptr<Player> being_checked);
 
         std::string user_ranking_output();
         std::string fantasy_squad_name_output();
         std::string fantasy_squad_points_output();
         std::string show_budget_output();
+        std::string fantasy_squad_cost_output();
     private:
         std::string username;
         std::string password;
