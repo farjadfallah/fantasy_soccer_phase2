@@ -7,6 +7,10 @@ POST signup user_name farjad password fallah
 POST buy_player ? name D. Randolph
 POST buy_player ? name M. Senesi
 POST buy_player ? name C. Mepham
+POST set_captain ? name C. Mepham
+POST sell_player ? name C. Mepham
+POST buy_player ? name C. Mepham
+POST set_captain ? name C. Mepham
 POST buy_player ? name P. Billing
 POST buy_player ? name Michael Dacosta
 POST logout

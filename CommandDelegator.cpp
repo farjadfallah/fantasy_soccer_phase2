@@ -100,6 +100,10 @@ void CommandDeligator::handle_POST_command(int command_number){
         this->pass_week();
         printer.print_request_successful();
         break;
+    case SET_CAPTAIN:
+        this->set_captain();
+        printer.print_request_successful();
+        break;
     default:
         break;
     }
@@ -266,4 +270,9 @@ void CommandDeligator::close_transfer_window(){
 
 void CommandDeligator::pass_week(){
     fantasy_football->pass_week();
+}
+
+void CommandDeligator::set_captain(){
+    string player_name = get_player_name(words);
+    fantasy_football->set_captain(player_name);
 }

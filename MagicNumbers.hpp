@@ -40,7 +40,7 @@ const std::vector<std::string>  COMMAND_TYPES_LIST = { "POST", "GET", "PUT", "DE
 const std::vector<std::string>GET_COMMANDS_LIST = { "team_of_the_week", "players", "league_standings", "users_ranking", "matches_result_league", "squad"};
 
 const std::vector<std::string> POST_COMMANDS_LIST = {"signup", "login", "register_admin", "logout", "sell_player", "buy_player", "close_transfer_window", 
-                            "open_transfer_window", "pass_week"};
+                            "open_transfer_window", "pass_week", "set_captain"};
 
 enum {
     POST,
@@ -58,7 +58,8 @@ enum {
     BUY_PLAYER,
     CLOSE_TRANSFER_WINDOW,
     OPEN_TRANSFER_WINDOW,
-    PASS_WEEK
+    PASS_WEEK,
+    SET_CAPTAIN
 };
 
 enum {
