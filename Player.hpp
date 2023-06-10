@@ -21,6 +21,10 @@ class Player{
         void pass_week();
         bool is_better_than_in_week(std::shared_ptr<Player> compared_to, int week);
         bool is_better_alphabetically(std::shared_ptr<Player> compared_to);
+        bool can_be_bought_with(int budget);
+        void reduce_the_price_from_budget(int& budget);
+        void pay_back_the_price_to_budget(int& budget);
+
 
         std::string team_of_the_week_output(int week);
         std::string players_of_the_team_output();

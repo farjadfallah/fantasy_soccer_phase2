@@ -30,6 +30,8 @@ class FantasyTeam {
         int players_bought_this_week =0;
         int players_sold_this_week =0;
         bool once_completed = false;
+        int budget = DEAFUALT_BUDGET;
+
 
         void check_if_team_can_sell_player();
         void check_if_team_can_buy_player(std::string post);

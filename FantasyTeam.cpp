@@ -28,6 +28,10 @@ bool FantasyTeam::has_certain_username(string _username){
 
 void FantasyTeam::add_player(shared_ptr<Player> new_player){
     check_if_team_can_buy_player(new_player->get_position());
+    if(!new_player->can_be_bought_with(budget)){
+        throw(BAD_REQUEST());
+    }
+    new_player->reduce_the_price_from_budget(budget);
     tmp_squad_players_list.push_back(new_player);
     players_bought_this_week ++;
     if(tmp_squad_players_list.size() == 5){
@@ -39,6 +43,7 @@ void FantasyTeam::delete_player(shared_ptr<Player> new_player){
     check_if_team_can_sell_player();
     for(int i=0; i<tmp_squad_players_list.size(); i++){
         if(tmp_squad_players_list[i] == new_player){
+            new_player->pay_back_the_price_to_budget(budget);
             tmp_squad_players_list.erase(tmp_squad_players_list.begin() + i);
             players_sold_this_week ++;
             return;

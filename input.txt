@@ -2,3 +2,7 @@ POST register_admin ? username admin password 123456
 POST pass_week
 GET team_of_the_week
 GET players ? team_name AFC_Bournemouth
+POST logout
+POST signup user_name farjad password fallah
+POST buy_player ? name D. Sadi
+POST sell_player ? name D. Sadi

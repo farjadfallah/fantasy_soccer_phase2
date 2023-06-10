@@ -163,3 +163,18 @@ string Player::players_of_the_team_output(){
 std::string Player::fantasy_squad_output(){
     return full_name;
 }
+
+bool Player::can_be_bought_with(int budget){
+    if(budget >= price){
+        return true;
+    }
+    return false;
+}
+
+void Player::reduce_the_price_from_budget(int& budget){
+    budget -= price;
+}
+
+void Player::pay_back_the_price_to_budget(int& budget){
+    budget += price;
+}

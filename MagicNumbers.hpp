@@ -95,6 +95,7 @@ const int FANTASY_TEAM_SIZE = 5;
 const int MAX_PERCISION_IN_DOUBLES = 1;
 const int INJURY_PERIOD = 3;
 const int YELLOW_CARD_TRESHOLD = 3;
+const int DEAFUALT_BUDGET = 2500;
 //admin info
 const std::string DEFAULT_ADMIN_USER = "admin";
 const std::string DEFAULT_ADMIN_PASS = "123456"; 
