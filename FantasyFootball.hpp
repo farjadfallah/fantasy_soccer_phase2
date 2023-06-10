@@ -37,6 +37,7 @@ class FantasyFootball{
         void buy_player(std::string player_name);
         void sell_player(std::string player_name);
         void squad(std::string team_name = NO_TEAM_SELECTED);
+        void show_budget();
         void users_ranking();
         void set_captain(std::string player_name);
 

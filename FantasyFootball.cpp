@@ -291,6 +291,14 @@ void FantasyFootball::squad(std::string team_name ){
     printer.print_fantasy_squad(selected_team, squad);
 }
 
+void FantasyFootball::show_budget(){
+    if(active_fantasy_team_user==NULL){
+        throw(BAD_REQUEST());
+    }
+    shared_ptr<FantasyTeam> selected_team = active_fantasy_team_user;
+    printer.print_budget(selected_team);
+}
+
 void FantasyFootball::users_ranking(){
     sort_fantasy_teams();
     printer.print_user_ranking(fantasy_teams_list);

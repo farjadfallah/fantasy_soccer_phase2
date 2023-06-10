@@ -2,6 +2,7 @@ POST register_admin ? username admin password 123456
 POST pass_week
 GET team_of_the_week
 GET players ? team_name AFC_Bournemouth
+GET show_budget
 POST logout
 POST signup user_name farjad password fallah
 POST buy_player ? name D. Randolph
@@ -9,6 +10,7 @@ POST buy_player ? name M. Senesi
 POST buy_player ? name C. Mepham
 POST set_captain ? name C. Mepham
 POST sell_player ? name C. Mepham
+POST set_captain ? name C. Mepham
 POST buy_player ? name C. Mepham
 POST set_captain ? name C. Mepham
 POST buy_player ? name P. Billing
@@ -19,3 +21,8 @@ POST pass_week
 POST logout
 POST login user_name farjad password fallah
 GET squad
+GET show_budget
+POST sell_player ? name C. Mepham
+GET show_budget
+POST buy_player ? name C. Mepham
+GET show_budget

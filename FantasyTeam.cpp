@@ -199,3 +199,7 @@ string FantasyTeam::fantasy_squad_points_output(){
 
     return stream.str();
 }
+
+string FantasyTeam::show_budget_output(){
+    return to_string(budget);
+}

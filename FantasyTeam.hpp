@@ -21,6 +21,7 @@ class FantasyTeam {
         std::string user_ranking_output();
         std::string fantasy_squad_name_output();
         std::string fantasy_squad_points_output();
+        std::string show_budget_output();
     private:
         std::string username;
         std::string password;

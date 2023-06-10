@@ -54,6 +54,11 @@ void Printer::print_fantasy_squad(shared_ptr<FantasyTeam> selected_team, std::ve
     cout << "Total Points: " << selected_team->fantasy_squad_points_output() << endl;
 }
 
+void Printer::print_budget(const shared_ptr<FantasyTeam>& selected_fantasy_team){
+    cout << selected_fantasy_team->show_budget_output() << endl;
+}
+
+
 void Printer::print_request_successful(){
     cout << SUCCESS_MESSAGE << endl;
 }

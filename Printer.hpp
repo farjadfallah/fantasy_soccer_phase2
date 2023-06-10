@@ -15,6 +15,7 @@ class Printer{
         void print_players_of_team(const std::vector<std::shared_ptr<Player> >& players_list);
         void print_clubs_standings(const std::vector<std::shared_ptr<SoccerClub> >& clubs_list);
         void print_user_ranking(const std::vector<std::shared_ptr<FantasyTeam> >& fantasy_teams_list);
+        void print_budget(const std::shared_ptr<FantasyTeam>& selected_fantasy_team);
 
         void print_matches_result_league(std::shared_ptr<WeekMatchResults> selected_week);
         void print_fantasy_squad(std::shared_ptr<FantasyTeam> selected_team, std::vector<std::shared_ptr<Player> >& squad);

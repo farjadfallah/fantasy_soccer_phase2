@@ -56,6 +56,9 @@ void CommandDeligator::handle_GET_command(int command_number){
     case SQUAD:
         this->squad();
         break;
+    case SHOW_BUDGET:
+        this->show_budget();
+        break;
     default:
         break;
     }
@@ -226,6 +229,10 @@ void CommandDeligator::matches_result_league(){
 void CommandDeligator::squad(){
     string team_name = get_field_string(FANTASY_TEAM_FIELD);
     fantasy_football->squad(team_name);
+}
+
+void CommandDeligator::show_budget(){
+    fantasy_football->show_budget();
 }
 
 void CommandDeligator::signup(){

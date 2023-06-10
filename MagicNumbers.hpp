@@ -37,7 +37,7 @@ const int NOT_INJURED =0;
 //commands list
 const std::vector<std::string>  COMMAND_TYPES_LIST = { "POST", "GET", "PUT", "DELETE"};
 
-const std::vector<std::string>GET_COMMANDS_LIST = { "team_of_the_week", "players", "league_standings", "users_ranking", "matches_result_league", "squad"};
+const std::vector<std::string>GET_COMMANDS_LIST = { "team_of_the_week", "players", "league_standings", "users_ranking", "matches_result_league", "squad", "show_budget"};
 
 const std::vector<std::string> POST_COMMANDS_LIST = {"signup", "login", "register_admin", "logout", "sell_player", "buy_player", "close_transfer_window", 
                             "open_transfer_window", "pass_week", "set_captain"};
@@ -68,7 +68,8 @@ enum {
     LEAGUE_STANDINGS,
     USER_RANKING,
     MATHCES_RESULT_LEAGUE,
-    SQUAD
+    SQUAD,
+    SHOW_BUDGET
 };
 
 //headers position

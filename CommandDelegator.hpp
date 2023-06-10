@@ -14,6 +14,7 @@ class CommandDeligator {
         void users_ranking();
         void matches_result_league();
         void squad();
+        void show_budget();
 
         void signup();
         void login();
