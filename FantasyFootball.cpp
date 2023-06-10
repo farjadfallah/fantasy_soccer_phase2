@@ -226,6 +226,17 @@ void FantasyFootball::close_transfer_window(){
     transfer_window_open = true;
 }
 
+void FantasyFootball::set_captain(std::string player_name){
+    if(active_fantasy_team_user==NULL){
+        throw (BAD_REQUEST());
+    }
+    shared_ptr<Player> new_player = find_player_by_name(player_name);
+    if(new_player == NULL){
+        throw(NOT_FOUND());
+    }
+    active_fantasy_team_user->set_captain(new_player);
+}
+
 void FantasyFootball::buy_player(std::string player_name){
     if(active_fantasy_team_user==NULL){
         throw (BAD_REQUEST());

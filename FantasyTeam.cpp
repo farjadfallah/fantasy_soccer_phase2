@@ -4,6 +4,7 @@
 #include "Exceptions.hpp"
 #include "MagicNumbers.hpp"
 #include <map>
+#include <sstream>
 
 using namespace std;
 
@@ -26,6 +27,20 @@ bool FantasyTeam::has_certain_username(string _username){
     return false;
 }
 
+void FantasyTeam::new_captain_is_in_team(shared_ptr<Player> new_captain){
+    for(shared_ptr<Player> tmp : tmp_squad_players_list){
+        if(tmp == new_captain){
+            return;
+        }
+    }
+    throw (NOT_FOUND());
+}
+
+void FantasyTeam::set_captain(shared_ptr<Player> new_captain){
+    new_captain_is_in_team(new_captain);
+    tmp_captain = new_captain;
+}
+
 void FantasyTeam::add_player(shared_ptr<Player> new_player){
     check_if_team_can_buy_player(new_player->get_position());
     if(!new_player->can_be_bought_with(budget)){
@@ -45,6 +60,9 @@ void FantasyTeam::delete_player(shared_ptr<Player> new_player){
         if(tmp_squad_players_list[i] == new_player){
             new_player->pay_back_the_price_to_budget(budget);
             tmp_squad_players_list.erase(tmp_squad_players_list.begin() + i);
+            if(tmp_captain == new_player){
+                tmp_captain = NULL;
+            }
             players_sold_this_week ++;
             return;
         }
@@ -80,6 +98,7 @@ int FantasyTeam::players_num_in_position(string position){
 
 void FantasyTeam::pass_week(int new_week){
     players_list_each_week.push_back(tmp_squad_players_list);
+    captain_list_each_week.push_back(tmp_captain);
     players_bought_this_week = 0;
     players_sold_this_week = 0;
     if(tmp_squad_players_list.size() >= 5){
@@ -96,6 +115,9 @@ double FantasyTeam::calculate_total_score(int week){
     double total_score =0;
     for(shared_ptr<Player> tmp: tmp_squad_players_list){
         total_score += tmp->get_score_at_week(week);
+    }
+    if(tmp_captain!=NULL){
+        total_score += tmp_captain->get_score_at_week(week);
     }
     return total_score;
 }
@@ -157,12 +179,23 @@ bool FantasyTeam::is_better_than(shared_ptr<FantasyTeam> compared_to){
 }
 
 string FantasyTeam::user_ranking_output(){
-    return "team_name: " + username + " | point: " + to_string(points);
+    stringstream stream;  
+    stream.precision(MAX_PERCISION_IN_DOUBLES);
+    stream << fixed;
+    stream << points;
+
+    return "team_name: " + username + " | point: " + stream.str();
 }
 
 string FantasyTeam::fantasy_squad_name_output(){
     return username;
 }
+
 string FantasyTeam::fantasy_squad_points_output(){
-    return to_string(points);
+    stringstream stream;  
+    stream.precision(MAX_PERCISION_IN_DOUBLES);
+    stream << fixed;
+    stream << points;
+
+    return stream.str();
 }

@@ -12,6 +12,7 @@ class FantasyTeam {
         bool has_certain_username(std::string _username);
         void add_player(std::shared_ptr<Player> new_player);
         void delete_player(std::shared_ptr<Player> new_player);
+        void set_captain(std::shared_ptr<Player> new_captain);
 
         void pass_week(int new_week);
         std::vector<std::shared_ptr<Player> > squad();
@@ -27,12 +28,15 @@ class FantasyTeam {
         double points =0;
         std::vector<std::shared_ptr<Player> >  tmp_squad_players_list;
         std::vector<std::vector<std::shared_ptr<Player> > > players_list_each_week;
+        std::shared_ptr<Player> tmp_captain;
+        std::vector<std::shared_ptr<Player> > captain_list_each_week;
         int players_bought_this_week =0;
         int players_sold_this_week =0;
         bool once_completed = false;
         int budget = DEAFUALT_BUDGET;
 
 
+        void new_captain_is_in_team(std::shared_ptr<Player> new_captain);
         void check_if_team_can_sell_player();
         void check_if_team_can_buy_player(std::string post);
         int players_num_in_position(std::string position);

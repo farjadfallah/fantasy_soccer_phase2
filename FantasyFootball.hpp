@@ -38,6 +38,7 @@ class FantasyFootball{
         void sell_player(std::string player_name);
         void squad(std::string team_name = NO_TEAM_SELECTED);
         void users_ranking();
+        void set_captain(std::string player_name);
 
     private:
         std::vector<std::shared_ptr<Player> > players_list;

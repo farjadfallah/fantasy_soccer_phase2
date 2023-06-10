@@ -4,5 +4,14 @@ GET team_of_the_week
 GET players ? team_name AFC_Bournemouth
 POST logout
 POST signup user_name farjad password fallah
-POST buy_player ? name D. Sadi
-POST sell_player ? name D. Sadi
+POST buy_player ? name D. Randolph
+POST buy_player ? name M. Senesi
+POST buy_player ? name C. Mepham
+POST buy_player ? name P. Billing
+POST buy_player ? name Michael Dacosta
+POST logout
+POST register_admin ? username admin password 123456
+POST pass_week
+POST logout
+POST login user_name farjad password fallah
+GET squad
